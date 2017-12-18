@@ -1,0 +1,17 @@
+{
+    "name": "redzjovi/fertility-calculator",
+    "description": "Fertility Calculator",
+    "authors": [
+        {
+            "name": "Jovi",
+            "email": "redzjovi@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "redzjovi\\fertility\\": "src/"
+        }
+    }
+}
