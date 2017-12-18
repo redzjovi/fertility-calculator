@@ -8,7 +8,7 @@ composer require redzjovi/fertility-calculator
 
 ## How to use
 ```
-use redzjovi\fertility\Tiki;
+use redzjovi\fertility\FertilityCalculator;
 
 /**
  * example calculate('2017-12-18', 20)
