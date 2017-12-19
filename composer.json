@@ -8,7 +8,10 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "nesbot/carbon": "^1.23@dev",
+        "symfony/var-dumper": "3.4.x-dev"
+    },
     "autoload": {
         "psr-4": {
             "redzjovi\\fertility\\": "src/"
