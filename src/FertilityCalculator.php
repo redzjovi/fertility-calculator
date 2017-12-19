@@ -29,98 +29,32 @@ class FertilityCalculator
         $colors = ['#e9f6da', '#ddefc8', '#d4ebb8', '#c0e496', '#99d453', '#c0e496'];
         $dates = [];
 
-        $lastPeriod = Carbon::createFromFormat('Y-m-d', $lastPeriod);
-        $rangePeriod = 6;
-        $startFertility = $cycle - 18;
-        $endFertility = $cycle - 18 + $rangePeriod;
-
         $interval = new DateInterval('P1D');
         $startDate = (new Carbon($lastPeriod))->subMonths($month)->startOfMonth();
         $endDate = (new Carbon($lastPeriod))->addMonths($month)->endOfMonth();
 
 
-        // from next month
-        $periods = new DatePeriod($startDate, $interval, $lastPeriod);
-        $j = 0;
+        $periods = new DatePeriod($startDate, $interval, $endDate);
         foreach ($periods as $date) {
-            $diffInDays = $lastPeriod->diffInDays($date);
+            $diffInDays = (new Carbon($lastPeriod))->diffInDays($date);
 
-            if ($diffInDays >= $startFertility && $diffInDays % $startFertility == 0) {
-                $j = 0;
-            }
+            if ($diffInDays % $cycle == 0) {
+                $ovulationPeriod = (new Carbon($date))->subDays(14);
+                $startFertility = (new Carbon($date))->subDays(14)->subDays(5);
+                // $endFertility = (new Carbon($startDate))->subDays(14)->addDays(1);
 
-            if (
-                $diffInDays >= $startFertility &&
-                $diffInDays % $startFertility >= 0 &&
-                $diffInDays % $startFertility < $rangePeriod
-            ) {
-                $dates[] = ['background_color' => $colors[$j], 'class_name' => ($j == 1 ? ['fertile', 'fertile-love'] : ['fertile', 'fertile-check']), 'date' => $date->format('Y-m-d')];
-                $j++;
-            }
-        }
+                $lastPeriod = (new Carbon($date))->addDays($cycle);
 
-        // until next month
-        $periods = new DatePeriod($lastPeriod, $interval, $endDate);
-        $j = 0;
-        foreach ($periods as $date) {
-            $diffInDays = $lastPeriod->diffInDays($date);
+                $rangePeriod = 6;
 
-            if ($diffInDays >= $startFertility && $diffInDays % $startFertility == 0) {
-                $j = 0;
-            }
-
-            if ($diffInDays >= $startFertility && $diffInDays % $startFertility >= 0 && $diffInDays % $startFertility < $rangePeriod) {
-                $dates[] = ['background_color' => $colors[$j], 'class_name' => ($j == 4 ? ['fertile', 'fertile-love'] : ['fertile', 'fertile-check']), 'date' => $date->format('Y-m-d')];
-                $j++;
-            }
-        }
-
-        return $dates;
-    }
-
-    public function calculate_motherandbaby($lastPeriod, $cycle = 20, $month = 6)
-    {
-        // $colors = ['#e9f6da', '#ddefc8', '#d4ebb8', '#c0e496', '#99d453', '#c0e496'];
-        $colors = ['#e9f6da', '#e9f6da', '#e9f6da', '#e9f6da', '#ddefc8', '#d4ebb8', '#c0e496', '#99d453', '#c0e496'];
-        $dates = [];
-
-        $lastPeriod = Carbon::createFromFormat('Y-m-d', $lastPeriod);
-        $rangePeriod = 9;
-        $interval = new DateInterval('P1D');
-        $startDate = (new Carbon($lastPeriod))->subMonths($month)->startOfMonth();
-        $endDate = (new Carbon($lastPeriod))->addMonths($month)->endOfMonth();
-
-        // from next month
-        $startFertility = $cycle;
-        $periods = new DatePeriod($startDate, $interval, $lastPeriod);
-        $j = 0;
-        foreach ($periods as $date) {
-            $diffInDays = $lastPeriod->diffInDays($date) - 1;
-
-            if ($diffInDays % $startFertility == 0) {
-                $j = 0;
-            }
-
-            if ($diffInDays % $startFertility > 0 && $diffInDays % $startFertility >= ($cycle - $rangePeriod)) {
-                $dates[] = ['background_color' => $colors[$j], 'class_name' => ($j == 7 ? ['fertile', 'fertile-love'] : ['fertile', 'fertile-check']), 'date' => $date->format('Y-m-d')];
-                $j++;
-            }
-        }
-
-        // until next month
-        $startFertility = $cycle;
-        $periods = new DatePeriod($lastPeriod, $interval, $endDate);
-        $j = 0;
-        foreach ($periods as $date) {
-            $diffInDays = $lastPeriod->diffInDays($date);
-
-            if ($diffInDays % $startFertility == 0) {
-                $j = 0;
-            }
-
-            if ($diffInDays % $startFertility >= 0 && $diffInDays % $startFertility < $rangePeriod) {
-                $dates[] = ['background_color' => $colors[$j], 'class_name' => ($j == 7 ? ['fertile', 'fertile-love'] : ['fertile', 'fertile-check']), 'date' => $date->format('Y-m-d')];
-                $j++;
+                $i = 0;
+                for ($i = 0; $i < $rangePeriod; $i++) {
+                    $dates[] = [
+                        'background_color' => $colors[$i],
+                        'class_name' => ($i == 4 ? ['fertile', 'fertile-love'] : ['fertile', 'fertile-check']),
+                        'date' => $startFertility->addDays(1)->toDateString(),
+                    ];
+                }
             }
         }
 
