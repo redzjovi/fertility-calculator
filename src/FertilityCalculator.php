@@ -23,7 +23,7 @@ class FertilityCalculator
     {
         $colors = ['#e9f6da', '#ddefc8', '#d4ebb8', '#c0e496', '#99d453', '#c0e496'];
         $dates = [];
-        $fertilityDate = $lastPeriod + ($lengthCycle - 18);
+        $fertilityDate = date('Y-m-d', strtotime($lastPeriod.' + '.($lengthCycle - 18).' days'));
         
         for ($i = 0; $i < 6; $i++) {
             $dates[] = [
