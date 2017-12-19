@@ -7,10 +7,9 @@
             "email": "redzjovi@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
-        "nesbot/carbon": "^1.23@dev",
-        "symfony/var-dumper": "3.4.x-dev"
+        "symfony/var-dumper": "^3.4",
+        "nesbot/carbon": "^1.22"
     },
     "autoload": {
         "psr-4": {
