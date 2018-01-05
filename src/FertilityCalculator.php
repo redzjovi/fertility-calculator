@@ -55,6 +55,9 @@ class FertilityCalculator
                         'date' => $startFertility->addDays(1)->toDateString(),
                     ];
                 }
+
+                // last / next period color blue
+                $dates[] = ['background_color' => '#ccffff', 'class_name' => '', 'date' => (new Carbon($date))->toDateString()];
             }
         }
 
