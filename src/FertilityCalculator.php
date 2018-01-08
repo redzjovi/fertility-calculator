@@ -63,4 +63,29 @@ class FertilityCalculator
 
         return $dates;
     }
+
+    /**
+     * @param date $lastPeriod Y-m-d
+     * @param integer $cycle
+     * @return array $date
+     */
+    public function calculateNextPeriod($lastPeriod, $cycle = 20)
+    {
+        $interval = new DateInterval('P1D');
+        $startDate = (new Carbon($lastPeriod))->startOfMonth();
+        $endDate = (new Carbon($lastPeriod))->addMonths(3)->endOfMonth();
+
+
+        $periods = new DatePeriod($startDate, $interval, $endDate);
+        foreach ($periods as $date) {
+            $diffInDays = (new Carbon($lastPeriod))->diffInDays($date);
+
+            if ($diffInDays % $cycle == 0) {
+                $fertilityDate['start'] = (new Carbon($date))->subDays(14)->subDays(5)->toDateString();
+                $fertilityDate['end'] = (new Carbon($date))->subDays(14)->addDays(1)->toDateString();
+            }
+        }
+
+        return $fertilityDate;
+    }
 }
