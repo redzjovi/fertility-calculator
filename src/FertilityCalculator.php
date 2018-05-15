@@ -9,6 +9,8 @@ use DateTime;
 
 class FertilityCalculator
 {
+    protected $colors = ['#e9f6da', '#ddefc8', '#d4ebb8', '#c0e496', '#99d453', '#c0e496'];
+
     /**
      * example calculate('2017-12-18', 20)
      * return [
@@ -26,7 +28,6 @@ class FertilityCalculator
      */
     public function calculate($lastPeriod, $cycle = 20, $month = 6)
     {
-        $colors = ['#e9f6da', '#ddefc8', '#d4ebb8', '#c0e496', '#99d453', '#c0e496'];
         $dates = [];
 
         $interval = new DateInterval('P1D');
@@ -50,7 +51,7 @@ class FertilityCalculator
                 $i = 0;
                 for ($i = 0; $i < $rangePeriod; $i++) {
                     $dates[] = [
-                        'background_color' => $colors[$i],
+                        'background_color' => $this->colors[$i],
                         'class_name' => ($i == 4 ? ['fertile', 'fertile-love'] : ['fertile', 'fertile-check']),
                         'date' => $startFertility->addDays(1)->toDateString(),
                     ];
@@ -87,5 +88,10 @@ class FertilityCalculator
         }
 
         return $fertilityDate;
+    }
+
+    public function setColors($colors = [])
+    {
+        $this->colors = $colors;
     }
 }
